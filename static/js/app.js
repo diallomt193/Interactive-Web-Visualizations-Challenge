@@ -1,15 +1,15 @@
 // Use the D3 library to read in `samples.json` from the URL
 
-// const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
-// // Promise Pending
-// const dataPromise = d3.json(url);
-// console.log("Data Promise: ", dataPromise);
+// Promise Pending
+const dataPromise = d3.json(url);
+console.log("Data Promise: ", dataPromise);
 
-// // Fetch the JSON data and console log it
-// d3.json(url).then(function(data) {
-//     console.log(data);
-// });
+// Fetch the JSON data and console log it
+d3.json(url).then(function(data) {
+    console.log(data);
+});
 
 
 var jsData;
@@ -53,11 +53,10 @@ function updateCharts(sample) {
     };
     var data = [trace1];
     var layout = {
-        title: 'Bacteria Cultures per Sample',
         showlegend: false,
         hovermode: 'closest',
-        xaxis: {title:"OTU (Operational Taxonomic Unit) ID " +sample},
-        font: { color: "#49a81d", family: "Arial, Helvetica, sans-serif" },
+        xaxis: {title:"OTU ID "},
+        font: { color: "#1d49a8", family: "Arial, Helvetica, sans-serif" },
         margin: {t:30}
     };
     Plotly.newPlot('bubble', data, layout); 
@@ -71,9 +70,8 @@ function updateCharts(sample) {
     };
     var data = [trace1];
     var layout = {
-        title: "Top Ten OTUs for Individual " +sample,
         margin: {l: 100, r: 100, t: 100, b: 100},
-        font: { color: "#49a81d", family: "Arial, Helvetica, sans-serif" }
+        font: { color: "#1d49a8", family: "Arial, Helvetica, sans-serif" }
     };
     Plotly.newPlot("bar", data, layout);  
     });
@@ -89,29 +87,21 @@ function updateMetadata(sample) {
         Object.entries(result).forEach(([key, value]) => {
             metaPanel.append("h6").text(`${key.toUpperCase()}: ${value}`)
         })
-    
-    var data = [
-    {
-        domain: { x: [0, 1], y: [0, 1] },
-        marker: {size: 28, color:'850000'},
-        value: result.wfreq,
-        title: 'Belly Button Washing Frequency<br> Scrubs per Week',
-        titlefont: {family: '"Arial, Helvetica, sans-serif'},
-        type: "indicator",
-        gauge: { axis: { visible: true, range: [0, 9] } },
-        mode: "number+gauge"
-    }
-    ];
 
-    var layout = {
-    width: 600,
-    height: 450,
-    margin: { t: 100, r: 100, l: 100, b: 100 },
-    line: {
-    color: '600000'
-    },
-    font: { color: "#49a81d", family: "Arial, Helvetica, sans-serif" }
-    };
+    var data = [
+        {
+            domain: { x: [0, 1], y: [0, 1] },
+            marker:{size:28,color:'850000'},
+            value: result.wfreq,
+            title: { text: "Belly Button Washing frequency" },
+            type: "indicator",
+            gauge: {axis:{visible:true, range:[0,9]}},
+            mode: "gauge+number"
+        }
+    ];
+    
+    var layout = { width: 600, height: 500, margin: { t: 100, b: 100 }, line:{color:'600000'}, font:{color: '#1d49a8'} };
+
 
     
     Plotly.newPlot("gauge", data, layout);
